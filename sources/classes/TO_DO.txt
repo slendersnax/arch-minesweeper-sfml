@@ -1,0 +1,6 @@
+TO-DO:
+	- counting mines
+	- before the above - i think it's caused by the fact that i'm sometimes puttin mines in places
+	where there are already mines
+	- something is funky, check the whole mine generating algorithm
+	- MAYBE HIGH SCHOOL HIRAGANA RANDOMIZING ALGORITHM
