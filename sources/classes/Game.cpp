@@ -98,6 +98,7 @@ void Game::initMines() {
 }
 
 // recursive function to reveal the field and all zero fields around
+// might work with only four directions but i like it like this right now
 void Game::revealEntitiesAround(int pos) {
 	if(!entities[pos].isMine()) {
 		if(!entities[pos].isRevealed()) {
@@ -145,6 +146,8 @@ void Game::revealEntitiesAround(int pos) {
 	}
 }
 
+// checking if we flagged all the existing mines
+// used to see if we won the game
 bool Game::allMinesFlagged() {
 	for(unsigned int i = 0; i < entities.size(); i ++) {
 		if(entities[i].isMine()) {
@@ -212,16 +215,19 @@ void Game::mainLoop() {
 
 	        // setting / taking a flag
 	        if (bRightMouseClicked) {
-	        	if(entities[clicked].isFlagged()) {
-	        		nFlags ++;
-	        		entities[clicked].takeFlag();
-	        	}
-	        	else if (nFlags > 0) {
-	        		nFlags --;
-	        		entities[clicked].setFlag();
-	        	}
+	        	// we can't flag revealed fields
+	        	if(!entities[clicked].isRevealed()) {
+		        	if(entities[clicked].isFlagged()) {
+		        		nFlags ++;
+		        		entities[clicked].takeFlag();
+		        	}
+		        	else if (nFlags > 0) {
+		        		nFlags --;
+		        		entities[clicked].setFlag();
+		        	}
 
-	        	sf_flagsLeft.setString("Flags: " + intToString(nFlags));
+		        	sf_flagsLeft.setString("Flags: " + intToString(nFlags));
+	        	}
 	        }
     	}
     	else if(allMinesFlagged()) {
