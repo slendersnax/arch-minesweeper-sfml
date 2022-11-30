@@ -27,11 +27,27 @@ void Game::init() {
 	this->sf_flagsLeft.setCharacterSize(24);
 	this->sf_flagsLeft.setFillColor(getSzin(Colour::Green));
 
+	this->sf_endGameMsg.setFont(sf_font);
+	this->sf_endGameMsg.setString("Press y to play again,\nn to close");
+	this->sf_endGameMsg.setPosition(140, 7);
+	this->sf_endGameMsg.setCharacterSize(12);
+	this->sf_endGameMsg.setFillColor(getSzin(Colour::White));
+
+	this->initEntities();
+	this->initMines();
+}
+
+void Game::reInit() {
+	this->sf_flagsLeft.setString("Flags: 0");
+	this->sf_flagsLeft.setFillColor(getSzin(Colour::Green));
+
 	this->initEntities();
 	this->initMines();
 }
 
 void Game::initEntities() {
+	entities.clear();
+
 	for(int i = 0; i < nRows; i ++) {
 		for(int j = 0; j < nCols; j ++) {
 			entities.push_back(Entity(nStdWidth, nStdWidth, j * nStdWidth, i * nStdWidth + nOffsetY, Colour::PastelBlue, sf_font));
@@ -182,7 +198,6 @@ void Game::mainLoop() {
         bRightMouseClicked = false;
         nRowClicked = -1;
         nColClicked = -1;
-        bGameOver = allMinesFlagged();
         
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -200,6 +215,8 @@ void Game::mainLoop() {
         }
 
         if(!bGameOver) {
+        	bGameOver = allMinesFlagged();
+
         	// revealing fields
 	        if (bLeftMouseClicked) {
 	        	if(!entities[clicked].isMine())
@@ -230,13 +247,21 @@ void Game::mainLoop() {
 	        	}
 	        }
     	}
-    	else if(allMinesFlagged()) {
-    		sf_flagsLeft.setString("You win!");
+    	else {
+			if(allMinesFlagged())
+				sf_flagsLeft.setString("You win!");
+
+			char c;
+			// get (y)es or (n)o
     	}
 
         window.clear();
 
         window.draw(sf_flagsLeft);
+
+        if(bGameOver)
+        	window.draw(sf_endGameMsg);
+
         for(unsigned int i = 0; i < entities.size(); i ++)
 			entities[i].drawEntity(window);
 

@@ -13,9 +13,11 @@ class Game {
 
 	    sf::Font sf_font;
 	    sf::Text sf_flagsLeft;
+	    sf::Text sf_endGameMsg;
 	public:
 		Game();
 		void init();
+		void reInit(); // reinitialise after a game
 		void initEntities();
 		void initMines();
 		void revealEntitiesAround(int pos);
