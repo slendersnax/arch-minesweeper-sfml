@@ -52,7 +52,7 @@ void Game::initEntities() {
 
 	for(int i = 0; i < nRows; i ++) {
 		for(int j = 0; j < nCols; j ++) {
-			entities.push_back(Entity(nStdWidth, nStdWidth, j * nStdWidth, i * nStdWidth + nOffsetY, Colour::PastelBlue, sf_font));
+			entities.push_back(Entity(nStdWidth, nStdWidth, j * nStdWidth, i * nStdWidth + nOffsetY, Colour::BrightGrey, sf_font));
 		}
 	}
 }
@@ -123,7 +123,7 @@ void Game::colourNumbers() {
 				entities[i].setNumberColour(Colour::BrightRed);
 				break;
 			case 2:
-				entities[i].setNumberColour(Colour::Blue);
+				entities[i].setNumberColour(Colour::PastelBlue);
 				break;
 			case 3:
 				entities[i].setNumberColour(Colour::Yellow);
