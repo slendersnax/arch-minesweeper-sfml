@@ -24,6 +24,8 @@ class Entity {
 		void takeFlag();
 		bool isFlagged();
 
+		void setNumberColour(Colour colour);
+
 		void increaseMinesAround();
 		
 		void revealEntity();

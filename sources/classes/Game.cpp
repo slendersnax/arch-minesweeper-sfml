@@ -6,11 +6,11 @@
 #include "core/helper_functions.h"
 
 Game::Game() {
-	nWindowWidth = 400;
-	nWindowHeight = 400;
+	nWindowWidth = 500;
+	nWindowHeight = 500;
 	nOffsetY = 40;
 	nStdWidth = 25;
-	nMines = 25;
+	nMines = nStdWidth * 2;
 
 	nRows = nWindowHeight / nStdWidth;
 	nCols = nWindowWidth / nStdWidth;
@@ -35,6 +35,7 @@ void Game::init() {
 
 	this->initEntities();
 	this->initMines();
+	this->colourNumbers();
 }
 
 void Game::reInit() {
@@ -43,6 +44,7 @@ void Game::reInit() {
 
 	this->initEntities();
 	this->initMines();
+	this->colourNumbers();
 }
 
 void Game::initEntities() {
@@ -82,7 +84,7 @@ void Game::initMines() {
 		}
 
 		// has southern neighbour aka not in last row
-		if (r + nCols < entities.size()) { 
+		if ((unsigned int)(r + nCols) < entities.size()) { 
 			bSouthNeighbour = true;
 			entities[r + nCols].increaseMinesAround();
 		}
@@ -113,6 +115,39 @@ void Game::initMines() {
 	}
 }
 
+void Game::colourNumbers() {
+	for(unsigned int i = 0; i < entities.size(); i ++) {
+		switch(entities[i].getMinesAround()) {
+			case 1:
+				entities[i].setNumberColour(Colour::BrightRed);
+				break;
+			case 2:
+				entities[i].setNumberColour(Colour::Blue);
+				break;
+			case 3:
+				entities[i].setNumberColour(Colour::Yellow);
+				break;
+			case 4:
+				entities[i].setNumberColour(Colour::BrightGrey);
+				break;
+			case 5:
+				entities[i].setNumberColour(Colour::DarkGreen);
+				break;
+			case 6:
+				entities[i].setNumberColour(Colour::Orange);
+				break;
+			case 7:
+				entities[i].setNumberColour(Colour::Purple);
+				break;
+			case 8:
+				entities[i].setNumberColour(Colour::White);
+				break;
+			default:
+				break;
+		}
+	}
+}
+
 // recursive function to reveal the field and all zero fields around
 // might work with only four directions but i like it like this right now
 void Game::revealEntitiesAround(int pos) {
@@ -131,7 +166,7 @@ void Game::revealEntitiesAround(int pos) {
 					revealEntitiesAround(pos - nCols);
 				}
 				
-				if(pos + nCols < entities.size() - 1) {
+				if((unsigned int)(pos + nCols) < entities.size() - 1) {
 					bCanRevealSouth = true;
 					revealEntitiesAround(pos + nCols);
 				}

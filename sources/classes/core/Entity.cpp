@@ -47,6 +47,10 @@ bool Entity::isFlagged() {
 	return this->bFlagged;
 }
 
+void Entity::setNumberColour(Colour colour) {
+	this->sf_mineNumber.setFillColor(getSzin(colour));
+}
+
 void Entity::increaseMinesAround() {
 	this->nMinesAround ++;
 	this->sf_mineNumber.setString(intToString(this->nMinesAround));

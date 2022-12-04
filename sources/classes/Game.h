@@ -20,6 +20,7 @@ class Game {
 		void reInit(); // reinitialise after a game
 		void initEntities();
 		void initMines();
+		void colourNumbers();
 		void revealEntitiesAround(int pos);
 		bool allMinesFlagged();
 		void mainLoop();

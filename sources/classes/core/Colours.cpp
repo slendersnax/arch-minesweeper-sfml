@@ -11,8 +11,14 @@ sf::Color getSzin(Colour colour) {
 		case Colour::Grey:
 			return sf::Color(122, 122, 122);
 			break;
+		case Colour::BrightGrey:
+			return sf::Color(182, 182, 182);
+			break;
 		case Colour::Red:
 			return sf::Color(255, 0, 0);
+			break;
+		case Colour::BrightRed:
+			return sf::Color(255, 100, 0);
 			break;
 		case Colour::Green:
 			return sf::Color(0, 255, 0);
@@ -30,7 +36,10 @@ sf::Color getSzin(Colour colour) {
 			return sf::Color(190, 10, 200);
 			break;
 		case Colour::Yellow:
-			return sf::Color(199, 180, 10);
+			return sf::Color(220, 220, 10);
+			break;
+		case Colour::Orange:
+			return sf::Color(170, 69, 10);
 			break;
 		default:
 			return sf::Color(255, 255, 255);
