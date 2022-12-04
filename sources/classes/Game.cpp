@@ -115,6 +115,7 @@ void Game::initMines() {
 	}
 }
 
+// setting the colours for the numbers
 void Game::colourNumbers() {
 	for(unsigned int i = 0; i < entities.size(); i ++) {
 		switch(entities[i].getMinesAround()) {
