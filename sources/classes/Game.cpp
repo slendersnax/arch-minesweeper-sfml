@@ -39,14 +39,16 @@ void Game::init() {
 }
 
 void Game::reInit() {
-	this->sf_flagsLeft.setString("Flags: 0");
+	this->sf_flagsLeft.setString("Flags: " + intToString(this->nMines));
 	this->sf_flagsLeft.setFillColor(getSzin(Colour::Green));
 
-	this->initEntities();
+	this->blankEntities();
 	this->initMines();
 	this->colourNumbers();
 }
 
+// creating the entities/minefield
+// we only do this once
 void Game::initEntities() {
 	entities.clear();
 
@@ -57,18 +59,34 @@ void Game::initEntities() {
 	}
 }
 
-void Game::initMines() {
-	for(int i = 0; i < nMines; i ++) {
-		int r;
+// reset the minefield
+// i was getting core dump errors when i was deleting the whole shebang
+// and creating a new field's worth of entities so...
+void Game::blankEntities() {
+	for(unsigned int i = 0; i < entities.size(); i ++) {
+		entities[i].reset();
+	}
+}
 
-		// if the field is already a mine we don't make it a mine again
-		// TODO: make this without the while loop
-		do {
-			r = rand() % entities.size();
-		} while(entities[r].isMine());
+void Game::initMines() {
+	std::vector<int> clearEntities;
+	clearEntities.clear();
+
+	// we want to mine the field without a while loop
+	// so we create an array of the indexes of the non-mine entities (which, at this point, is all of them)
+	// when we create a mine from one of these, we simply pop() that index
+	for(unsigned int i = 0; i < entities.size(); i ++) {
+		clearEntities.push_back(i);
+	}
+
+	for(int i = 0; i < nMines; i ++) {
+		int r = rand() % clearEntities.size();
+		int newMineIndex = clearEntities[r];
+		clearEntities.erase(clearEntities.begin() + r);
+
 
 		// making the field a mine
-		entities[r].setIsMine(true);
+		entities[newMineIndex].setIsMine(true);
 
 		bool bNorthNeighbour = false;
 		bool bSouthNeighbour = false;
@@ -78,40 +96,42 @@ void Game::initMines() {
 		// increasing the mine counters of the fields around this field
 
 		// has northern neighbour aka not in first row
-		if (r - nCols >= 0) {
+		if (newMineIndex - nCols >= 0) {
 			bNorthNeighbour = true;
-			entities[r - nCols].increaseMinesAround();
+			entities[newMineIndex - nCols].increaseMinesAround();
 		}
 
 		// has southern neighbour aka not in last row
-		if ((unsigned int)(r + nCols) < entities.size()) { 
+		if ((unsigned int)(newMineIndex + nCols) < entities.size()) { 
 			bSouthNeighbour = true;
-			entities[r + nCols].increaseMinesAround();
+			entities[newMineIndex + nCols].increaseMinesAround();
 		}
 
 		// has western neighbour
-		if (r % nCols > 0) {
+		if (newMineIndex % nCols > 0) {
 			bWestNeighbour = true;
-			entities[r - 1].increaseMinesAround();
+			entities[newMineIndex - 1].increaseMinesAround();
 		}
 
 		// has eastern neighbour
-		if (r % nCols < nCols - 1) {
+		if (newMineIndex % nCols < nCols - 1) {
 			bEastNeighbour = true;
-			entities[r + 1].increaseMinesAround();
+			entities[newMineIndex + 1].increaseMinesAround();
 		}
 
+
 		if(bNorthNeighbour && bWestNeighbour)
-			entities[r - nCols - 1].increaseMinesAround();
+			entities[newMineIndex - nCols - 1].increaseMinesAround();
 
 		if(bNorthNeighbour && bEastNeighbour)
-			entities[r - nCols + 1].increaseMinesAround();
+			entities[newMineIndex - nCols + 1].increaseMinesAround();
 
 		if(bSouthNeighbour && bWestNeighbour)
-			entities[r + nCols - 1].increaseMinesAround();
+			entities[newMineIndex + nCols - 1].increaseMinesAround();
 
 		if(bSouthNeighbour && bEastNeighbour)
-			entities[r + nCols + 1].increaseMinesAround();
+			entities[newMineIndex + nCols + 1].increaseMinesAround();
+
 	}
 }
 
@@ -287,8 +307,16 @@ void Game::mainLoop() {
 			if(allMinesFlagged())
 				sf_flagsLeft.setString("You win!");
 
-			char c;
-			// get (y)es or (n)o
+			// check if player wants another game
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+				this->reInit();
+				bGameOver = false;
+				nFlags = this->nMines;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+				window.close();
+			}
     	}
 
         window.clear();

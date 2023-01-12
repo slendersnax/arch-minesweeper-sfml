@@ -30,6 +30,9 @@ class Entity {
 		
 		void revealEntity();
 		bool isRevealed();
+
+		void reset();
+
 		sf::RectangleShape getRect();
 		void drawEntity(sf::RenderWindow &window);
 };

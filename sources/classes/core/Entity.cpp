@@ -68,6 +68,14 @@ sf::RectangleShape Entity::getRect() {
 	return this->sf_rect;
 }
 
+void Entity::reset() {
+	this->nMinesAround = 0;
+	this->bRevealed = false;
+	this->bIsMine = false;
+	this->sf_mineNumber.setString(" ");
+	this->takeFlag();
+}
+
 void Entity::drawEntity(sf::RenderWindow &window) {
 	if(!bRevealed) 
 		window.draw(this->sf_rect);

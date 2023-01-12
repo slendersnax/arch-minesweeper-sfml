@@ -19,6 +19,7 @@ class Game {
 		void init();
 		void reInit(); // reinitialise after a game
 		void initEntities();
+		void blankEntities();
 		void initMines();
 		void colourNumbers();
 		void revealEntitiesAround(int pos);
