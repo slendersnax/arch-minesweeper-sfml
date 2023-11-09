@@ -7,6 +7,7 @@ mine_files = main.o classes/Game.o classes/core/Entity.o classes/core/Colours.o 
 .PHONY: classes clean
 
 minesweeper: classes main.o
+	mkdir -p ../bin
 	$(cxx) $(mine_files) -o ../bin/minesweeper -L $(sfml_lib) $(included_libs)
 
 main.o: classes main.cpp

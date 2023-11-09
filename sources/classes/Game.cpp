@@ -19,7 +19,7 @@ Game::Game() {
 // initialisers -------------------------------------
 void Game::init() {
 	srand(time(NULL));
-	sf_font.loadFromFile("/home/abi/Documents/Projects_abi/made on linux/cpp-linux/sfml-projects/minesweeper/sources/classes/res/CONSOLA.TTF");
+	sf_font.loadFromFile("classes/res/CONSOLA.TTF");
 
 	this->sf_flagsLeft.setFont(sf_font);
 	this->sf_flagsLeft.setString("Flags: 0");
