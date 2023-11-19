@@ -5,4 +5,14 @@ I'm planning on making this a repo similar to the repos in the AUR, with a PKGBU
 
 ### build
 
-It's built using the **make** utility, so clone the repo, `cd` into the **sources** folder, then build it using `make` and run it using `make run` (or just `cd` into the newly created **bin** folder at the root of the project and run the executable directly).
+It has been only tested to work on Arch Linux so far.
+
+It's built using the **make** utility and made using **cpp** and **SFML**, so before anything you need the `make`, `sfml`, and `gcc` packages. 
+
+Then clone the repo, `cd` into the **sources** folder and build it using `make` and run it using `make run` (or just `cd` into the newly created **bin** folder at the root of the project and run the executable directly).
+
+### todo
+
+- [ ] clean up code
+- [ ] make Linux distro agnostic build
+- [ ] make Windows build
