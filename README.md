@@ -11,6 +11,12 @@ It's built using the **make** utility and made using **cpp** and **SFML**, so be
 
 Then clone the repo, `cd` into the **sources** folder and build it using `make` and run it using `make run` (or just `cd` into the newly created **bin** folder at the root of the project and run the executable directly).
 
+### how to play
+
+`left mouse click`: reveal field
+
+`right mouse click`: place / remove flag
+
 ### todo
 
 - [ ] clean up code
